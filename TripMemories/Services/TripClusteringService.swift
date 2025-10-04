@@ -10,7 +10,7 @@ class TripClusteringService {
     private let minTripDistance: CLLocationDistance = 50_000 // 50km from home
     private let locationGroupingRadius: CLLocationDistance = 100_000 // 100km radius
     private let maxDayGap: TimeInterval = 3 * 24 * 60 * 60 // 3 days
-    private let minPhotosPerTrip = 3
+    private let minPhotosPerTrip = 2
     
     private var geocodingCache: [String: (city: String, country: String)] = [:]
     private let geocoder = CLGeocoder()

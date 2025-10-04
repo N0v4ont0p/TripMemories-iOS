@@ -97,9 +97,13 @@ struct MapView: View {
             longitude: (minLon + maxLon) / 2
         )
         
+        // Calculate span with safety limits
+        let latDelta = max(0.5, min(170, (maxLat - minLat) * 1.5))
+        let lonDelta = max(0.5, min(350, (maxLon - minLon) * 1.5))
+        
         let span = MKCoordinateSpan(
-            latitudeDelta: max(0.5, (maxLat - minLat) * 1.5),
-            longitudeDelta: max(0.5, (maxLon - minLon) * 1.5)
+            latitudeDelta: latDelta,
+            longitudeDelta: lonDelta
         )
         
         region = MKCoordinateRegion(center: center, span: span)
