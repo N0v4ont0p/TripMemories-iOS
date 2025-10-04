@@ -54,7 +54,6 @@ struct TripDetailView: View {
                 }
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
         .sheet(item: $selectedPhoto) { photo in
             PhotoDetailView(photo: photo, thumbnail: tripViewModel.thumbnails[photo.id])
         }
