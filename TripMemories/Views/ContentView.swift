@@ -5,10 +5,8 @@ struct ContentView: View {
     @EnvironmentObject var tripViewModel: TripViewModel
     
     @State private var showOnboarding = false
-    @State private var selectedTab = 0
-    
     var body: some View {
-        TabView(selection: $selectedTab) {
+        TabView {
             NavigationStack {
                 TripListView()
                     .navigationDestination(for: Trip.self) { trip in
@@ -18,13 +16,13 @@ struct ContentView: View {
             .tabItem {
                 Label("Trips", systemImage: "photo.stack")
             }
-            .tag(0)
             
-            MapView(trips: tripViewModel.trips)
-                .tabItem {
-                    Label("Map", systemImage: "map")
-                }
-                .tag(1)
+            NavigationStack {
+                MapView()
+            }
+            .tabItem {
+                Label("Map", systemImage: "map")
+            }
         }
         .onAppear {
             checkOnboarding()

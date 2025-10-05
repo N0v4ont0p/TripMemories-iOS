@@ -7,10 +7,11 @@ class TripClusteringService {
     
     // MARK: - Configuration
     
-    private let minTripDistance: CLLocationDistance = 50_000 // 50km from home
-    private let locationGroupingRadius: CLLocationDistance = 100_000 // 100km radius
-    private let maxDayGap: TimeInterval = 3 * 24 * 60 * 60 // 3 days
+    private let minTripDistance: CLLocationDistance = 30_000 // 30km from home (reduced from 50km)
+    private let locationGroupingRadius: CLLocationDistance = 150_000 // 150km radius (increased from 100km)
+    private let maxDayGap: TimeInterval = 4 * 24 * 60 * 60 // 4 days (increased from 3 days)
     private let minPhotosPerTrip = 2
+    private let nearbyTripMergeRadius: CLLocationDistance = 200_000 // 200km for merging nearby trips
     
     private var geocodingCache: [String: (city: String, country: String)] = [:]
     private let geocoder = CLGeocoder()
@@ -169,9 +170,17 @@ class TripClusteringService {
                 
                 let distance = centroid1.distance(from: centroid2)
                 
-                if distance <= locationGroupingRadius {
-                    currentGroup.append(contentsOf: clusters[j])
-                    used.insert(j)
+                // Use the larger merge radius for combining trips
+                if distance <= nearbyTripMergeRadius {
+                    // Check if time overlap makes sense (within 30 days)
+                    if let date1 = currentGroup.last?.creationDate,
+                       let date2 = clusters[j].first?.creationDate {
+                        let dayGap = abs(date2.timeIntervalSince(date1)) / (24 * 60 * 60)
+                        if dayGap <= 30 {
+                            currentGroup.append(contentsOf: clusters[j])
+                            used.insert(j)
+                        }
+                    }
                 }
             }
             
@@ -202,7 +211,7 @@ class TripClusteringService {
         
         // Check cache first
         if let cached = geocodingCache[cacheKey] {
-            let locationName = homeCountry != nil && cached.country == homeCountry ? cached.city : cached.country
+            let locationName = determineLocationName(city: cached.city, country: cached.country, homeCountry: homeCountry)
             return (locationName, CodableLocation(location: location))
         }
         
@@ -212,14 +221,16 @@ class TripClusteringService {
                 let placemarks = try await geocoder.reverseGeocodeLocation(location)
                 
                 if let placemark = placemarks.first {
-                    let city = placemark.locality ?? placemark.administrativeArea ?? "Unknown"
-                    let country = placemark.country ?? "Unknown"
+                    let city = placemark.locality ?? placemark.subLocality ?? placemark.administrativeArea ?? "Unknown City"
+                    let country = placemark.country ?? "Unknown Country"
                     
                     // Cache result
                     geocodingCache[cacheKey] = (city: city, country: country)
                     
                     // Determine name based on home country
-                    let locationName = homeCountry != nil && country == homeCountry ? city : country
+                    let locationName = determineLocationName(city: city, country: country, homeCountry: homeCountry)
+                    
+                    print("📍 Geocoded: \(locationName) (City: \(city), Country: \(country))")
                     
                     return (locationName, CodableLocation(location: location))
                 }
@@ -232,6 +243,36 @@ class TripClusteringService {
         }
         
         return ("Unknown Location", CodableLocation(location: location))
+    }
+    
+    private func determineLocationName(city: String, country: String, homeCountry: String?) -> String {
+        // If in home country, show city name
+        if let homeCountry = homeCountry, country == homeCountry {
+            return city
+        }
+        
+        // For international trips, show country
+        // But for large countries like USA, UK, show city + country code
+        let largeCities = ["New York", "Los Angeles", "London", "Manchester", "Edinburgh", "Sydney", "Melbourne"]
+        if largeCities.contains(city) || country == "United States" || country == "United Kingdom" || country == "Australia" {
+            return "\(city), \(getCountryCode(country))"
+        }
+        
+        return country
+    }
+    
+    private func getCountryCode(_ country: String) -> String {
+        let codes: [String: String] = [
+            "United States": "USA",
+            "United Kingdom": "UK",
+            "Australia": "AUS",
+            "Canada": "CAN",
+            "Germany": "DEU",
+            "France": "FRA",
+            "Italy": "ITA",
+            "Spain": "ESP"
+        ]
+        return codes[country] ?? country
     }
     
     private func generateTripTitle(startDate: Date, locationName: String) -> String {

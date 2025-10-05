@@ -2,12 +2,13 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
-    let trips: [Trip]
+    @EnvironmentObject var tripViewModel: TripViewModel
     
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 20, longitude: 0),
         span: MKCoordinateSpan(latitudeDelta: 100, longitudeDelta: 100)
     )
+    @State private var tripLocations: [TripLocation] = []
     
     var body: some View {
         ZStack {
@@ -31,12 +32,15 @@ struct MapView: View {
                     }
                 }
                 .ignoresSafeArea()
-                .onAppear {
-                    updateRegion()
-                }
             } else {
                 emptyStateView
             }
+        }
+        .onAppear {
+            updateTripLocations()
+        }
+        .onChange(of: tripViewModel.trips.count) { _ in
+            updateTripLocations()
         }
     }
     
@@ -60,8 +64,9 @@ struct MapView: View {
         .padding(40)
     }
     
-    private var tripLocations: [TripLocation] {
-        trips.compactMap { trip in
+    private func updateTripLocations() {
+        // Convert trips to locations
+        let locations = tripViewModel.trips.compactMap { trip -> TripLocation? in
             guard let centroid = trip.centroid,
                   isValidCoordinate(latitude: centroid.latitude, longitude: centroid.longitude) else {
                 return nil
@@ -76,21 +81,41 @@ struct MapView: View {
                 )
             )
         }
+        
+        tripLocations = locations
+        updateRegion(for: locations)
     }
     
     private func isValidCoordinate(latitude: Double, longitude: Double) -> Bool {
         return latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180
     }
     
-    private func updateRegion() {
-        guard !tripLocations.isEmpty else { return }
+    private func updateRegion(for locations: [TripLocation]) {
+        guard !locations.isEmpty else {
+            // Reset to default world view if no trips
+            withAnimation(.easeInOut(duration: 0.5)) {
+                region = MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: 20, longitude: 0),
+                    span: MKCoordinateSpan(latitudeDelta: 100, longitudeDelta: 100)
+                )
+            }
+            return
+        }
         
-        let coordinates = tripLocations.map { $0.coordinate }
+        let coordinates = locations.map { $0.coordinate }
         
-        let minLat = coordinates.map { $0.latitude }.min() ?? 0
-        let maxLat = coordinates.map { $0.latitude }.max() ?? 0
-        let minLon = coordinates.map { $0.longitude }.min() ?? 0
-        let maxLon = coordinates.map { $0.longitude }.max() ?? 0
+        guard let minLat = coordinates.map({ $0.latitude }).min(),
+              let maxLat = coordinates.map({ $0.latitude }).max(),
+              let minLon = coordinates.map({ $0.longitude }).min(),
+              let maxLon = coordinates.map({ $0.longitude }).max() else {
+            return
+        }
+        
+        // Validate coordinates
+        guard minLat >= -90, maxLat <= 90, minLon >= -180, maxLon <= 180 else {
+            print("⚠️ Invalid coordinates detected, skipping region update")
+            return
+        }
         
         let center = CLLocationCoordinate2D(
             latitude: (minLat + maxLat) / 2,
@@ -106,7 +131,10 @@ struct MapView: View {
             longitudeDelta: lonDelta
         )
         
-        region = MKCoordinateRegion(center: center, span: span)
+        // Animate region change
+        withAnimation(.easeInOut(duration: 0.5)) {
+            region = MKCoordinateRegion(center: center, span: span)
+        }
     }
 }
 
