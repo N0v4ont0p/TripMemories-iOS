@@ -9,6 +9,7 @@ struct MapView: View {
         span: MKCoordinateSpan(latitudeDelta: 100, longitudeDelta: 100)
     )
     @State private var tripLocations: [TripLocation] = []
+    @State private var tripCount: Int = 0
     
     var body: some View {
         ZStack {
@@ -36,11 +37,9 @@ struct MapView: View {
                 emptyStateView
             }
         }
-        .onAppear {
-            updateTripLocations()
-        }
-        .onChange(of: tripViewModel.trips.count) { _ in
-            updateTripLocations()
+        .task(id: tripViewModel.trips.count) {
+            // Use task with id to automatically handle updates
+            await updateTripLocations()
         }
     }
     
@@ -64,7 +63,10 @@ struct MapView: View {
         .padding(40)
     }
     
-    private func updateTripLocations() {
+    private func updateTripLocations() async {
+        // Small delay to ensure we're outside the view update cycle
+        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+        
         // Convert trips to locations
         let locations = tripViewModel.trips.compactMap { trip -> TripLocation? in
             guard let centroid = trip.centroid,
