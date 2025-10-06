@@ -1,13 +1,5 @@
 import SwiftUI
 
-#if os(macOS)
-import AppKit
-typealias PlatformImage = NSImage
-#else
-import UIKit
-typealias PlatformImage = UIImage
-#endif
-
 struct EnhancedTripCard: View {
     let trip: Trip
     let thumbnail: PlatformImage?

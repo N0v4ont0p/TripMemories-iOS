@@ -2,14 +2,6 @@ import Foundation
 import Photos
 import CoreLocation
 
-#if os(macOS)
-import AppKit
-typealias PlatformImage = NSImage
-#else
-import UIKit
-typealias PlatformImage = UIImage
-#endif
-
 /// Handles all photo library operations
 class PhotoLibraryService: ObservableObject {
     static let shared = PhotoLibraryService()
