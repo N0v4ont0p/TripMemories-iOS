@@ -104,13 +104,20 @@ class TripClusteringService {
             // Generate title
             let title = generateTripTitle(startDate: startDate, locationName: locationName)
             
+            // Determine category based on duration and location
+            let duration = Calendar.current.dateComponents([.day], from: startDate, to: endDate).day ?? 0
+            let category = determineCategory(duration: duration + 1, locationName: locationName)
+            
             let trip = Trip(
                 title: title,
                 startDate: startDate,
                 endDate: endDate,
                 locationName: locationName,
                 photos: cluster,
-                centroid: codableLocation
+                centroid: codableLocation,
+                isFavorite: false,
+                category: category,
+                notes: nil
             )
             
             trips.append(trip)
@@ -273,6 +280,30 @@ class TripClusteringService {
             "Spain": "ESP"
         ]
         return codes[country] ?? country
+    }
+    
+    private func determineCategory(duration: Int, locationName: String) -> TripCategory {
+        // Smart category determination based on duration and keywords
+        let lowercased = locationName.lowercased()
+        
+        // Check for business keywords
+        if lowercased.contains("conference") || lowercased.contains("business") {
+            return .business
+        }
+        
+        // Check for adventure keywords
+        if lowercased.contains("mountain") || lowercased.contains("hiking") || lowercased.contains("adventure") {
+            return .adventure
+        }
+        
+        // Determine by duration
+        if duration <= 3 {
+            return .weekend
+        } else if duration >= 7 {
+            return .vacation
+        } else {
+            return .vacation // Default to vacation for 4-6 days
+        }
     }
     
     private func generateTripTitle(startDate: Date, locationName: String) -> String {
