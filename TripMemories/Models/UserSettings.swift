@@ -1,12 +1,22 @@
 import Foundation
+import CoreLocation
 
-/// User settings and preferences
 struct UserSettings: Codable {
-    var homeCity: String?
-    var homeLocation: CodableLocation?
-    var homeCountry: String?
-    var hasCompletedOnboarding: Bool = false
-    var lastOrganizedDate: Date?
+    var homeLocation: Location?
+    var hasCompletedOnboarding: Bool
     
-    init() {}
+    struct Location: Codable {
+        let latitude: Double
+        let longitude: Double
+        
+        func toCLLocation() -> CLLocation {
+            return CLLocation(latitude: latitude, longitude: longitude)
+        }
+    }
+    
+    init(homeLocation: Location? = nil, hasCompletedOnboarding: Bool = false) {
+        self.homeLocation = homeLocation
+        self.hasCompletedOnboarding = hasCompletedOnboarding
+    }
 }
+

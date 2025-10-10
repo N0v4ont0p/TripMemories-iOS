@@ -1,23 +1,15 @@
 import Foundation
 import Photos
-import SwiftUI
+import UIKit
 
-/// Manages photo library state and operations
 @MainActor
 class PhotoLibraryViewModel: ObservableObject {
     @Published var photos: [Photo] = []
     @Published var authorizationStatus: PHAuthorizationStatus = .notDetermined
     @Published var isLoading = false
+    @Published var thumbnails: [String: UIImage] = [:]
     
     private let photoService = PhotoLibraryService.shared
-    
-    init() {
-        checkAuthorization()
-    }
-    
-    func checkAuthorization() {
-        authorizationStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-    }
     
     func requestAuthorization() async {
         await photoService.requestAuthorization()
@@ -26,7 +18,16 @@ class PhotoLibraryViewModel: ObservableObject {
     
     func fetchPhotos() async {
         isLoading = true
-        photos = await photoService.fetchAllPhotos()
+        photos = await photoService.fetchPhotos()
         isLoading = false
     }
+    
+    func loadThumbnail(for photoID: String) async {
+        if thumbnails[photoID] != nil { return }
+        
+        if let image = await photoService.loadThumbnail(for: photoID) {
+            thumbnails[photoID] = image
+        }
+    }
 }
+

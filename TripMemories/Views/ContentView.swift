@@ -5,39 +5,10 @@ struct ContentView: View {
     @EnvironmentObject var tripViewModel: TripViewModel
     
     @State private var showOnboarding = false
-    @State private var selectedTab = 0
     
     var body: some View {
-        TabView(selection: $selectedTab) {
-            // Trips Tab
-            NavigationStack {
-                TripListView()
-                    .navigationDestination(for: Trip.self) { trip in
-                        TripDetailView(trip: trip)
-                    }
-            }
-            .tabItem {
-                Label("Trips", systemImage: "photo.stack.fill")
-            }
-            .tag(0)
-            
-            // Timeline Tab
-            NavigationStack {
-                TimelineView()
-            }
-            .tabItem {
-                Label("Timeline", systemImage: "calendar")
-            }
-            .tag(1)
-            
-            // Statistics Tab
-            NavigationStack {
-                StatisticsView()
-            }
-            .tabItem {
-                Label("Stats", systemImage: "chart.bar.fill")
-            }
-            .tag(2)
+        NavigationStack {
+            TripListView()
         }
         .onAppear {
             checkOnboarding()
@@ -67,3 +38,4 @@ struct ContentView: View {
         }
     }
 }
+
