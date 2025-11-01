@@ -9,9 +9,16 @@ class TripClusteringService {
     private let maxDayGap: Int = 4 // Max days between photos in same trip
     
     func clusterPhotosIntoTrips(photos: [Photo], homeLocation: CLLocation?) async -> [Trip] {
+        print("🗺️ Clustering: Total photos = \(photos.count)")
+        
         // Filter photos with location
         let photosWithLocation = photos.filter { $0.location != nil }
-        guard !photosWithLocation.isEmpty else { return [] }
+        print("📍 Photos with location: \(photosWithLocation.count)")
+        
+        guard !photosWithLocation.isEmpty else {
+            print("❌ No photos with location data!")
+            return []
+        }
         
         // Sort by date
         let sortedPhotos = photosWithLocation.sorted { $0.date < $1.date }
@@ -19,16 +26,22 @@ class TripClusteringService {
         // Filter photos far from home
         let tripPhotos: [Photo]
         if let home = homeLocation {
+            print("🏠 Home location set: (\(home.coordinate.latitude), \(home.coordinate.longitude))")
             tripPhotos = sortedPhotos.filter { photo in
                 guard let loc = photo.location else { return false }
                 let distance = home.distance(from: loc.toCLLocation())
                 return distance > minTripDistance
             }
+            print("✈️ Photos far from home (>30km): \(tripPhotos.count)")
         } else {
+            print("⚠️ No home location set, using all photos")
             tripPhotos = sortedPhotos
         }
         
-        guard !tripPhotos.isEmpty else { return [] }
+        guard !tripPhotos.isEmpty else {
+            print("❌ No trip photos after filtering!")
+            return []
+        }
         
         // Cluster photos
         var trips: [Trip] = []
@@ -60,7 +73,9 @@ class TripClusteringService {
             trips.append(trip)
         }
         
-        return trips.sorted { $0.startDate > $1.startDate }
+        let sortedTrips = trips.sorted { $0.startDate > $1.startDate }
+        print("✅ Created \(sortedTrips.count) trips")
+        return sortedTrips
     }
     
     private func createTrip(from photos: [Photo]) async -> Trip? {

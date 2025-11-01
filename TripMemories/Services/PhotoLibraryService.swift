@@ -7,6 +7,7 @@ class PhotoLibraryService: ObservableObject {
     
     @Published var authorizationStatus: PHAuthorizationStatus = .notDetermined
     @Published var isLoading: Bool = false
+    @Published var loadingProgress: String = ""
     @Published var loadingError: String?
     
     private init() {
@@ -24,39 +25,91 @@ class PhotoLibraryService: ObservableObject {
         await MainActor.run {
             self.isLoading = true
             self.loadingError = nil
+            self.loadingProgress = "Starting..."
         }
         
-        // Add timeout for Mac Catalyst XPC issues
+        // Increased timeout to 120 seconds for very large libraries
         let result = await withTaskGroup(of: [Photo]?.self) { group in
-            // Fetch photos task
-            group.addTask {
+            // Fetch photos task with progress
+            group.addTask { [weak self] in
                 let fetchOptions = PHFetchOptions()
                 fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
                 
+                // Fetch all image assets
                 let assets = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-                var photos: [Photo] = []
+                let totalCount = assets.count
                 
-                assets.enumerateObjects { asset, _, _ in
-                    let location: Photo.Location? = if let loc = asset.location {
-                        Photo.Location(latitude: loc.coordinate.latitude, longitude: loc.coordinate.longitude)
+                print("📸 Found \(totalCount) photos in library")
+                
+                await MainActor.run {
+                    self?.loadingProgress = "Found \(totalCount) photos"
+                }
+                
+                var photos: [Photo] = []
+                photos.reserveCapacity(totalCount)
+                
+                var processedCount = 0
+                var photosWithLocation = 0
+                var photosWithoutLocation = 0
+                
+                // Enumerate all assets
+                assets.enumerateObjects { asset, index, _ in
+                    // Extract location from asset with detailed logging
+                    let location: Photo.Location?
+                    if let assetLocation = asset.location {
+                        let lat = assetLocation.coordinate.latitude
+                        let lon = assetLocation.coordinate.longitude
+                        
+                        // Validate coordinates
+                        if lat != 0.0 || lon != 0.0 {
+                            location = Photo.Location(latitude: lat, longitude: lon)
+                            photosWithLocation += 1
+                            
+                            // Debug: Print first few locations
+                            if photosWithLocation <= 5 {
+                                print("📍 Photo \(index): Location (\(lat), \(lon))")
+                            }
+                        } else {
+                            location = nil
+                            photosWithoutLocation += 1
+                        }
                     } else {
-                        nil
+                        location = nil
+                        photosWithoutLocation += 1
                     }
+                    
+                    // Use creation date or modification date
+                    let photoDate = asset.creationDate ?? asset.modificationDate ?? Date()
                     
                     let photo = Photo(
                         id: asset.localIdentifier,
-                        date: asset.creationDate ?? Date(),
+                        date: photoDate,
                         location: location
                     )
                     photos.append(photo)
+                    
+                    processedCount += 1
+                    
+                    // Update progress every 50 photos
+                    if processedCount % 50 == 0 {
+                        Task { @MainActor in
+                            self?.loadingProgress = "Processing \(processedCount) of \(totalCount)..."
+                        }
+                    }
+                }
+                
+                print("✅ Loaded \(photos.count) photos: \(photosWithLocation) with location, \(photosWithoutLocation) without")
+                
+                await MainActor.run {
+                    self?.loadingProgress = "✓ Loaded \(photos.count) photos (\(photosWithLocation) with location)"
                 }
                 
                 return photos
             }
             
-            // Timeout task (10 seconds)
+            // Timeout task (120 seconds for very large libraries)
             group.addTask {
-                try? await Task.sleep(nanoseconds: 10_000_000_000)
+                try? await Task.sleep(nanoseconds: 120_000_000_000)
                 return nil
             }
             
@@ -71,7 +124,9 @@ class PhotoLibraryService: ObservableObject {
         await MainActor.run {
             self.isLoading = false
             if result == nil {
-                self.loadingError = "Photo library access timed out. This may be a Mac Catalyst compatibility issue."
+                self.loadingError = "Photo library loading timed out after 120 seconds. You may have a very large photo library. Try restarting the app."
+                self.loadingProgress = ""
+                print("❌ Photo loading timed out!")
             }
         }
         

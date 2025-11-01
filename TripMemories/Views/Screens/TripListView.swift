@@ -114,9 +114,16 @@ struct TripListView: View {
                         .scaleEffect(1.5)
                     Text("Organizing photos...")
                         .font(.headline)
-                    Text("This may take a moment")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    if !PhotoLibraryService.shared.loadingProgress.isEmpty {
+                        Text(PhotoLibraryService.shared.loadingProgress)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                    } else {
+                        Text("This may take a moment")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
                 .padding(24)
                 .background(.regularMaterial)
