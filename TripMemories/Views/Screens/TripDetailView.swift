@@ -42,8 +42,7 @@ struct TripDetailView: View {
                 
                 // Photo grid
                  LazyVGrid(columns: columns, spacing: 2) {
-                    ForEach(Array(trip.photoIDs.enumerated()), id: .offset) { index, photoID in
-                        if let thumbnail = photoViewModel.thumbnails[photoID] {
+                    ForEach(Array(trip.photoIDs.enumerated()), id: \.0) { index, photoID in                        if let thumbnail = photoViewModel.thumbnails[photoID] {
                             Button {
                                 selectedPhotoIndex = index
                                 showSlideshow = true
@@ -115,6 +114,13 @@ struct TripDetailView: View {
             Text("Trip photos have been exported to a new album.")
         }
     }
+    
+    private func exportToAlbum() {
+        Task {
+            await PhotoLibraryService.shared.createAlbum(name: trip.title, photoIDs: trip.photoIDs)
+            showExportAlert = true
+        }
+    }
 }
 
 struct EditTripSheet: View {
@@ -151,13 +157,6 @@ struct EditTripSheet: View {
                     .disabled(newTitle.isEmpty)
                 }
             }
-        }
-    }
-    
-    private func exportToAlbum() {
-        Task {
-            await PhotoLibraryService.shared.createAlbum(name: trip.title, photoIDs: trip.photoIDs)
-            showExportAlert = true
         }
     }
 }
