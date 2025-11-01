@@ -56,6 +56,13 @@ class TripViewModel: ObservableObject {
         }
     }
     
+    func clearAllTrips() {
+        print("🗑️ Clearing all trips...")
+        trips = []
+        saveTrips()
+        print("✅ All trips cleared!")
+    }
+    
     private func saveTrips() {
         try? persistenceService.saveTrips(trips)
     }

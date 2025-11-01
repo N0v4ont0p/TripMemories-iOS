@@ -11,6 +11,7 @@ struct TripListView: View {
     @State private var showFilterSheet = false
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
+    @State private var showClearConfirmation = false
     
     enum SortOption: String, CaseIterable {
         case dateDescending = "Newest First"
@@ -96,10 +97,18 @@ struct TripListView: View {
                             )
                         }
                         
+                        Divider()
+                        
                         Button {
                             organizePhotos()
                         } label: {
                             Label("Organize Photos", systemImage: "arrow.triangle.2.circlepath")
+                        }
+                        
+                        Button(role: .destructive) {
+                            showClearConfirmation = true
+                        } label: {
+                            Label("Clear All Trips", systemImage: "trash")
                         }
                     } label: {
                         Image(systemName: "ellipsis.circle")
@@ -134,6 +143,14 @@ struct TripListView: View {
             Button("OK", role: .cancel) { }
         } message: {
             Text(errorMessage)
+        }
+        .alert("Clear All Trips?", isPresented: $showClearConfirmation) {
+            Button("Cancel", role: .cancel) { }
+            Button("Clear", role: .destructive) {
+                tripViewModel.clearAllTrips()
+            }
+        } message: {
+            Text("This will delete all \(tripViewModel.trips.count) trips. You can re-organize your photos afterwards.")
         }
         .sheet(isPresented: $showFilterSheet) {
             FilterSheet(sortOption: $sortOption, showFavoritesOnly: $showFavoritesOnly)
