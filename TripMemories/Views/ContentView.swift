@@ -5,10 +5,27 @@ struct ContentView: View {
     @EnvironmentObject var tripViewModel: TripViewModel
     
     @State private var showOnboarding = false
+    @State private var selectedTab = 0
     
     var body: some View {
-        NavigationStack {
+        TabView(selection: $selectedTab) {
             TripListView()
+                .tabItem {
+                    Label("Trips", systemImage: "suitcase")
+                }
+                .tag(0)
+            
+            TimelineView()
+                .tabItem {
+                    Label("Timeline", systemImage: "clock")
+                }
+                .tag(1)
+            
+            StatisticsView()
+                .tabItem {
+                    Label("Stats", systemImage: "chart.bar")
+                }
+                .tag(2)
         }
         .onAppear {
             checkOnboarding()

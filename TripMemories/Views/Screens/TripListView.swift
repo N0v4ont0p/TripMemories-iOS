@@ -7,6 +7,17 @@ struct TripListView: View {
     
     @State private var searchText = ""
     @State private var showFavoritesOnly = false
+    @State private var sortOption: SortOption = .dateDescending
+    @State private var showFilterSheet = false
+    
+    enum SortOption: String, CaseIterable {
+        case dateDescending = "Newest First"
+        case dateAscending = "Oldest First"
+        case nameAscending = "Name A-Z"
+        case nameDescending = "Name Z-A"
+        case photoCount = "Most Photos"
+        case duration = "Longest Duration"
+    }
     
     var filteredTrips: [Trip] {
         var result = tripViewModel.trips
@@ -20,6 +31,22 @@ struct TripListView: View {
                 $0.title.localizedCaseInsensitiveContains(searchText) ||
                 $0.locationName.localizedCaseInsensitiveContains(searchText)
             }
+        }
+        
+        // Sort
+        switch sortOption {
+        case .dateDescending:
+            result.sort { $0.startDate > $1.startDate }
+        case .dateAscending:
+            result.sort { $0.startDate < $1.startDate }
+        case .nameAscending:
+            result.sort { $0.title < $1.title }
+        case .nameDescending:
+            result.sort { $0.title > $1.title }
+        case .photoCount:
+            result.sort { $0.photoCount > $1.photoCount }
+        case .duration:
+            result.sort { $0.durationDays > $1.durationDays }
         }
         
         return result
@@ -50,23 +77,31 @@ struct TripListView: View {
         .searchable(text: $searchText, prompt: "Search trips")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Menu {
+                HStack(spacing: 16) {
                     Button {
-                        showFavoritesOnly.toggle()
+                        showFilterSheet = true
                     } label: {
-                        Label(
-                            showFavoritesOnly ? "Show All" : "Show Favorites",
-                            systemImage: showFavoritesOnly ? "star.fill" : "star"
-                        )
+                        Image(systemName: "line.3.horizontal.decrease.circle")
                     }
                     
-                    Button {
-                        organizePhotos()
+                    Menu {
+                        Button {
+                            showFavoritesOnly.toggle()
+                        } label: {
+                            Label(
+                                showFavoritesOnly ? "Show All" : "Show Favorites",
+                                systemImage: showFavoritesOnly ? "star.fill" : "star"
+                            )
+                        }
+                        
+                        Button {
+                            organizePhotos()
+                        } label: {
+                            Label("Organize Photos", systemImage: "arrow.triangle.2.circlepath")
+                        }
                     } label: {
-                        Label("Organize Photos", systemImage: "arrow.triangle.2.circlepath")
+                        Image(systemName: "ellipsis.circle")
                     }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
                 }
             }
         }
@@ -77,6 +112,9 @@ struct TripListView: View {
                     .background(.regularMaterial)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
             }
+        }
+        .sheet(isPresented: $showFilterSheet) {
+            FilterSheet(sortOption: $sortOption, showFavoritesOnly: $showFavoritesOnly)
         }
     }
     
@@ -115,6 +153,50 @@ struct TripListView: View {
             let homeLocation = settings?.homeLocation?.toCLLocation()
             await tripViewModel.organizePhotos(photos: photoViewModel.photos, homeLocation: homeLocation)
         }
+    }
+}
+
+struct FilterSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Binding var sortOption: TripListView.SortOption
+    @Binding var showFavoritesOnly: Bool
+    
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Sort By") {
+                    ForEach(TripListView.SortOption.allCases, id: \.self) { option in
+                        Button {
+                            sortOption = option
+                        } label: {
+                            HStack {
+                                Text(option.rawValue)
+                                    .foregroundStyle(.primary)
+                                Spacer()
+                                if sortOption == option {
+                                    Image(systemName: "checkmark")
+                                        .foregroundStyle(.blue)
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                Section("Filter") {
+                    Toggle("Favorites Only", isOn: $showFavoritesOnly)
+                }
+            }
+            .navigationTitle("Sort & Filter")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+        .presentationDetents([.medium])
     }
 }
 

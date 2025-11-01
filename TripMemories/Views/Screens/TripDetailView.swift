@@ -7,6 +7,9 @@ struct TripDetailView: View {
     let trip: Trip
     
     @State private var showEditSheet = false
+    @State private var showSlideshow = false
+    @State private var selectedPhotoIndex = 0
+    @State private var showExportAlert = false
     
     private let columns = [
         GridItem(.flexible()),
@@ -38,13 +41,19 @@ struct TripDetailView: View {
                 Divider()
                 
                 // Photo grid
-                LazyVGrid(columns: columns, spacing: 2) {
-                    ForEach(trip.photoIDs, id: \.self) { photoID in
+                 LazyVGrid(columns: columns, spacing: 2) {
+                    ForEach(Array(trip.photoIDs.enumerated()), id: .offset) { index, photoID in
                         if let thumbnail = photoViewModel.thumbnails[photoID] {
-                            Image(uiImage: thumbnail)
-                                .resizable()
-                                .aspectRatio(1, contentMode: .fill)
-                                .clipped()
+                            Button {
+                                selectedPhotoIndex = index
+                                showSlideshow = true
+                            } label: {
+                                Image(uiImage: thumbnail)
+                                    .resizable()
+                                    .aspectRatio(1, contentMode: .fill)
+                                    .clipped()
+                            }
+                            .buttonStyle(.plain)
                         } else {
                             Rectangle()
                                 .fill(Color.gray.opacity(0.2))
@@ -76,6 +85,19 @@ struct TripDetailView: View {
                     } label: {
                         Label("Edit Title", systemImage: "pencil")
                     }
+                    
+                    Button {
+                        selectedPhotoIndex = 0
+                        showSlideshow = true
+                    } label: {
+                        Label("Slideshow", systemImage: "play.circle")
+                    }
+                    
+                    Button {
+                        exportToAlbum()
+                    } label: {
+                        Label("Export to Album", systemImage: "square.and.arrow.up")
+                    }
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }
@@ -83,6 +105,14 @@ struct TripDetailView: View {
         }
         .sheet(isPresented: $showEditSheet) {
             EditTripSheet(trip: trip)
+        }
+        .fullScreenCover(isPresented: $showSlideshow) {
+            SlideshowView(trip: trip, startIndex: selectedPhotoIndex)
+        }
+        .alert("Export Complete", isPresented: $showExportAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Trip photos have been exported to a new album.")
         }
     }
 }
@@ -121,6 +151,13 @@ struct EditTripSheet: View {
                     .disabled(newTitle.isEmpty)
                 }
             }
+        }
+    }
+    
+    private func exportToAlbum() {
+        Task {
+            await PhotoLibraryService.shared.createAlbum(name: trip.title, photoIDs: trip.photoIDs)
+            showExportAlert = true
         }
     }
 }

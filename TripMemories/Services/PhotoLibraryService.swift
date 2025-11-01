@@ -63,5 +63,45 @@ class PhotoLibraryService: ObservableObject {
             }
         }
     }
+    
+    func loadFullImage(for photoID: String) async -> UIImage? {
+        let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: [photoID], options: nil)
+        guard let asset = fetchResult.firstObject else { return nil }
+        
+        let manager = PHImageManager.default()
+        let options = PHImageRequestOptions()
+        options.isSynchronous = true
+        options.deliveryMode = .highQualityFormat
+        options.isNetworkAccessAllowed = true
+        
+        return await withCheckedContinuation { continuation in
+            manager.requestImage(
+                for: asset,
+                targetSize: PHImageManagerMaximumSize,
+                contentMode: .aspectFit,
+                options: options
+            ) { image, _ in
+                continuation.resume(returning: image)
+            }
+        }
+    }
+    
+    func createAlbum(name: String, photoIDs: [String]) async {
+        let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: photoIDs, options: nil)
+        var assets: [PHAsset] = []
+        fetchResult.enumerateObjects { asset, _, _ in
+            assets.append(asset)
+        }
+        
+        guard !assets.isEmpty else { return }
+        
+        try? await PHPhotoLibrary.shared().performChanges {
+            let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: name)
+            if let placeholder = createAlbumRequest.placeholderForCreatedAssetCollection,
+               let albumChangeRequest = PHAssetCollectionChangeRequest(for: placeholder) {
+                albumChangeRequest.addAssets(assets as NSArray)
+            }
+        }
+    }
 }
 
