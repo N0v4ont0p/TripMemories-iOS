@@ -13,6 +13,10 @@ struct TripListView: View {
     @State private var errorMessage = ""
     @State private var showClearConfirmation = false
     
+    private var unknownLocationCount: Int {
+        tripViewModel.trips.filter { $0.locationName == "Unknown Location" }.count
+    }
+    
     enum SortOption: String, CaseIterable {
         case dateDescending = "Newest First"
         case dateAscending = "Oldest First"
@@ -60,6 +64,28 @@ struct TripListView: View {
             if tripViewModel.trips.isEmpty {
                 emptyState
             } else {
+                // Refresh banner for unknown locations
+                if unknownLocationCount > 0 {
+                    VStack(spacing: 8) {
+                        HStack {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundStyle(.orange)
+                            Text("\(unknownLocationCount) trip\(unknownLocationCount == 1 ? "" : "s") with Unknown Location")
+                                .font(.subheadline)
+                            Spacer()
+                            Button(action: refreshUnknownLocations) {
+                                Label("Refresh", systemImage: "arrow.clockwise")
+                                    .font(.subheadline.weight(.semibold))
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .disabled(tripViewModel.isOrganizing)
+                        }
+                        .padding(.horizontal)
+                        .padding(.vertical, 12)
+                        .background(Color.orange.opacity(0.1))
+                    }
+                }
+                
                 ScrollView {
                     LazyVStack(spacing: 16) {
                         ForEach(filteredTrips) { trip in
