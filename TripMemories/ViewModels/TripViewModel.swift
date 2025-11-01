@@ -14,10 +14,21 @@ class TripViewModel: ObservableObject {
     }
     
     func organizePhotos(photos: [Photo], homeLocation: CLLocation?) async {
+        print("🚀 Starting photo organization...")
         isOrganizing = true
-        trips = await clusteringService.clusterPhotosIntoTrips(photos: photos, homeLocation: homeLocation)
+        
+        // Run clustering OFF the main thread
+        let newTrips = await Task.detached(priority: .userInitiated) {
+            print("⚙️ Running clustering on background thread...")
+            return await TripClusteringService.shared.clusterPhotosIntoTrips(photos: photos, homeLocation: homeLocation)
+        }.value
+        
+        // Update UI on main thread
+        print("💾 Saving \(newTrips.count) trips...")
+        trips = newTrips
         saveTrips()
         isOrganizing = false
+        print("✅ Organization complete!")
     }
     
     func toggleFavorite(trip: Trip) {

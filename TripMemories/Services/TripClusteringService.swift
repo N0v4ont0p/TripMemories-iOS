@@ -8,6 +8,9 @@ class TripClusteringService {
     private let clusterRadius: Double = 150_000 // 150km grouping radius
     private let maxDayGap: Int = 4 // Max days between photos in same trip
     
+    // Geocoding cache to avoid repeated requests
+    private var geocodingCache: [String: String] = [:]
+    
     func clusterPhotosIntoTrips(photos: [Photo], homeLocation: CLLocation?) async -> [Trip] {
         print("🗺️ Clustering: Total photos = \(photos.count)")
         
@@ -44,7 +47,8 @@ class TripClusteringService {
         }
         
         // Cluster photos
-        var trips: [Trip] = []
+        print("🔄 Starting clustering...")
+        var clusters: [[Photo]] = []
         var currentCluster: [Photo] = [tripPhotos[0]]
         
         for i in 1..<tripPhotos.count {
@@ -60,17 +64,34 @@ class TripClusteringService {
             if dayGap <= maxDayGap && distance <= clusterRadius {
                 currentCluster.append(photo)
             } else {
-                // Create trip from current cluster
-                if let trip = await createTrip(from: currentCluster) {
-                    trips.append(trip)
-                }
+                clusters.append(currentCluster)
                 currentCluster = [photo]
             }
         }
         
         // Add last cluster
-        if let trip = await createTrip(from: currentCluster) {
-            trips.append(trip)
+        clusters.append(currentCluster)
+        
+        print("📦 Created \(clusters.count) clusters, now geocoding locations...")
+        
+        // Create trips from clusters with batched geocoding
+        var trips: [Trip] = []
+        
+        for (index, cluster) in clusters.enumerated() {
+            if let trip = await createTrip(from: cluster) {
+                trips.append(trip)
+                
+                // Progress update every 10 trips
+                if (index + 1) % 10 == 0 {
+                    print("🌍 Geocoded \(index + 1) of \(clusters.count) trips...")
+                }
+                
+                // Small delay to avoid rate limiting (Apple limits geocoding requests)
+                if (index + 1) % 50 == 0 {
+                    print("⏸️ Brief pause to avoid rate limiting...")
+                    try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 second pause every 50 requests
+                }
+            }
         }
         
         let sortedTrips = trips.sorted { $0.startDate > $1.startDate }
@@ -84,9 +105,10 @@ class TripClusteringService {
         let startDate = photos.first!.date
         let endDate = photos.last!.date
         
-        // Get location name
+        // Get location name with caching
         let centerPhoto = photos[photos.count / 2]
-        let locationName = await getLocationName(for: centerPhoto.location!.toCLLocation())
+        let centerLocation = centerPhoto.location!.toCLLocation()
+        let locationName = await getLocationName(for: centerLocation)
         
         let title = generateTitle(locationName: locationName, startDate: startDate)
         
@@ -100,33 +122,68 @@ class TripClusteringService {
     }
     
     private func getLocationName(for location: CLLocation) async -> String {
-        let geocoder = CLGeocoder()
+        // Create cache key from rounded coordinates (to 2 decimal places)
+        let lat = round(location.coordinate.latitude * 100) / 100
+        let lon = round(location.coordinate.longitude * 100) / 100
+        let cacheKey = "\(lat),\(lon)"
         
-        do {
-            let placemarks = try await geocoder.reverseGeocodeLocation(location)
-            if let placemark = placemarks.first {
-                // Try to get city, state, country
-                if let city = placemark.locality {
-                    if let country = placemark.country {
-                        return "\(city), \(country)"
-                    }
-                    return city
-                }
-                if let state = placemark.administrativeArea {
-                    if let country = placemark.country {
-                        return "\(state), \(country)"
-                    }
-                    return state
-                }
-                if let country = placemark.country {
-                    return country
-                }
-            }
-        } catch {
-            print("Geocoding error: \(error)")
+        // Check cache first
+        if let cached = geocodingCache[cacheKey] {
+            return cached
         }
         
-        return "Unknown Location"
+        let geocoder = CLGeocoder()
+        
+        // Add timeout to geocoding
+        let result = await withTaskGroup(of: String?.self) { group in
+            // Geocoding task
+            group.addTask {
+                do {
+                    let placemarks = try await geocoder.reverseGeocodeLocation(location)
+                    if let placemark = placemarks.first {
+                        // Try to get city, state, country
+                        if let city = placemark.locality {
+                            if let country = placemark.country {
+                                return "\(city), \(country)"
+                            }
+                            return city
+                        }
+                        if let state = placemark.administrativeArea {
+                            if let country = placemark.country {
+                                return "\(state), \(country)"
+                            }
+                            return state
+                        }
+                        if let country = placemark.country {
+                            return country
+                        }
+                    }
+                } catch {
+                    print("⚠️ Geocoding error: \(error.localizedDescription)")
+                }
+                return nil
+            }
+            
+            // Timeout task (5 seconds per geocoding request)
+            group.addTask {
+                try? await Task.sleep(nanoseconds: 5_000_000_000)
+                return nil
+            }
+            
+            // Return first result
+            if let name = await group.next() {
+                group.cancelAll()
+                return name
+            }
+            return nil
+        }
+        
+        let locationName = result ?? "Unknown Location"
+        
+        // Cache the result
+        geocodingCache[cacheKey] = locationName
+        
+        return locationName
     }
     
     private func generateTitle(locationName: String, startDate: Date) -> String {
@@ -136,4 +193,5 @@ class TripClusteringService {
         return "\(locationName) - \(monthYear)"
     }
 }
+
 
