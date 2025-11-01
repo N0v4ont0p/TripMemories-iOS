@@ -6,6 +6,8 @@ class PhotoLibraryService: ObservableObject {
     static let shared = PhotoLibraryService()
     
     @Published var authorizationStatus: PHAuthorizationStatus = .notDetermined
+    @Published var isLoading: Bool = false
+    @Published var loadingError: String?
     
     private init() {
         self.authorizationStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
@@ -19,28 +21,61 @@ class PhotoLibraryService: ObservableObject {
     }
     
     func fetchPhotos() async -> [Photo] {
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        
-        let assets = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-        var photos: [Photo] = []
-        
-        assets.enumerateObjects { asset, _, _ in
-            let location: Photo.Location? = if let loc = asset.location {
-                Photo.Location(latitude: loc.coordinate.latitude, longitude: loc.coordinate.longitude)
-            } else {
-                nil
-            }
-            
-            let photo = Photo(
-                id: asset.localIdentifier,
-                date: asset.creationDate ?? Date(),
-                location: location
-            )
-            photos.append(photo)
+        await MainActor.run {
+            self.isLoading = true
+            self.loadingError = nil
         }
         
-        return photos
+        // Add timeout for Mac Catalyst XPC issues
+        let result = await withTaskGroup(of: [Photo]?.self) { group in
+            // Fetch photos task
+            group.addTask {
+                let fetchOptions = PHFetchOptions()
+                fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+                
+                let assets = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+                var photos: [Photo] = []
+                
+                assets.enumerateObjects { asset, _, _ in
+                    let location: Photo.Location? = if let loc = asset.location {
+                        Photo.Location(latitude: loc.coordinate.latitude, longitude: loc.coordinate.longitude)
+                    } else {
+                        nil
+                    }
+                    
+                    let photo = Photo(
+                        id: asset.localIdentifier,
+                        date: asset.creationDate ?? Date(),
+                        location: location
+                    )
+                    photos.append(photo)
+                }
+                
+                return photos
+            }
+            
+            // Timeout task (10 seconds)
+            group.addTask {
+                try? await Task.sleep(nanoseconds: 10_000_000_000)
+                return nil
+            }
+            
+            // Return first result (either photos or timeout)
+            if let photos = await group.next() {
+                group.cancelAll()
+                return photos
+            }
+            return nil
+        }
+        
+        await MainActor.run {
+            self.isLoading = false
+            if result == nil {
+                self.loadingError = "Photo library access timed out. This may be a Mac Catalyst compatibility issue."
+            }
+        }
+        
+        return result ?? []
     }
     
     func loadThumbnail(for photoID: String) async -> UIImage? {
@@ -119,4 +154,5 @@ class PhotoLibraryService: ObservableObject {
         }
     }
 }
+
 

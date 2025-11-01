@@ -9,6 +9,8 @@ struct TripListView: View {
     @State private var showFavoritesOnly = false
     @State private var sortOption: SortOption = .dateDescending
     @State private var showFilterSheet = false
+    @State private var showErrorAlert = false
+    @State private var errorMessage = ""
     
     enum SortOption: String, CaseIterable {
         case dateDescending = "Newest First"
@@ -107,11 +109,24 @@ struct TripListView: View {
         }
         .overlay {
             if tripViewModel.isOrganizing {
-                ProgressView("Organizing photos...")
-                    .padding()
-                    .background(.regularMaterial)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                VStack(spacing: 12) {
+                    ProgressView()
+                        .scaleEffect(1.5)
+                    Text("Organizing photos...")
+                        .font(.headline)
+                    Text("This may take a moment")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(24)
+                .background(.regularMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
             }
+        }
+        .alert("Photo Library Error", isPresented: $showErrorAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(errorMessage)
         }
         .sheet(isPresented: $showFilterSheet) {
             FilterSheet(sortOption: $sortOption, showFavoritesOnly: $showFavoritesOnly)
@@ -149,6 +164,15 @@ struct TripListView: View {
     
     private func organizePhotos() {
         Task {
+            // Check for loading errors from PhotoLibraryService
+            if let error = PhotoLibraryService.shared.loadingError {
+                await MainActor.run {
+                    errorMessage = error
+                    showErrorAlert = true
+                }
+                return
+            }
+            
             let settings = PersistenceService.shared.loadSettings()
             let homeLocation = settings?.homeLocation?.toCLLocation()
             await tripViewModel.organizePhotos(photos: photoViewModel.photos, homeLocation: homeLocation)

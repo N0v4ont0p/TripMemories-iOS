@@ -46,6 +46,7 @@ objects = {
 		8901AC800459A87F44410CAA /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		5D6EDE95EAD96D44BE24F0C4 /* SlideshowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideshowView.swift; sourceTree = "<group>"; };
 		141A6C9A355B8F9B9A97ADDC /* TripCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCard.swift; sourceTree = "<group>"; };
+			E1234567890ABCDEF1234567 /* TripMemories.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TripMemories.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +85,7 @@ objects = {
 				5CAAED4AC2F2C66621B76234 /* ViewModels */,
 				70B3D72B2B15F4F3D059F46C /* Views */,
 				871A5A54D3F93D7412D9019F /* Info.plist */,
+				E1234567890ABCDEF1234567 /* TripMemories.entitlements */,
 			);
 			path = TripMemories;
 			sourceTree = "<group>";
@@ -304,6 +306,7 @@ objects = {
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
+				CODE_SIGN_ENTITLEMENTS = TripMemories/TripMemories.entitlements;
 				INFOPLIST_FILE = TripMemories/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -332,6 +335,7 @@ objects = {
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
+				CODE_SIGN_ENTITLEMENTS = TripMemories/TripMemories.entitlements;
 				INFOPLIST_FILE = TripMemories/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
