@@ -63,6 +63,43 @@ class TripViewModel: ObservableObject {
         print("✅ All trips cleared!")
     }
     
+    func refreshUnknownLocations(photos: [Photo]) async {
+        print("🔄 Refreshing unknown locations...")
+        isOrganizing = true
+        
+        defer {
+            isOrganizing = false
+            print("🏁 Refresh complete")
+        }
+        
+        var updatedTrips = trips
+        var refreshCount = 0
+        
+        for (index, trip) in updatedTrips.enumerated() {
+            if trip.locationName == "Unknown Location" {
+                // Get photos for this trip
+                let tripPhotos = photos.filter { trip.photoIDs.contains($0.id) }
+                guard !tripPhotos.isEmpty, let centerPhoto = tripPhotos[tripPhotos.count / 2], let location = centerPhoto.location else {
+                    continue
+                }
+                
+                // Try to geocode again
+                let locationName = await clusteringService.refreshLocationName(for: location.toCLLocation())
+                
+                if locationName != "Unknown Location" {
+                    updatedTrips[index].locationName = locationName
+                    updatedTrips[index].title = clusteringService.generateTitlePublic(locationName: locationName, startDate: trip.startDate)
+                    refreshCount += 1
+                    print("✅ Refreshed: \(locationName)")
+                }
+            }
+        }
+        
+        trips = updatedTrips
+        saveTrips()
+        print("✅ Refreshed \(refreshCount) locations")
+    }
+    
     private func saveTrips() {
         try? persistenceService.saveTrips(trips)
     }

@@ -233,6 +233,24 @@ class TripClusteringService {
         return locationName
     }
     
+    func refreshLocationName(for location: CLLocation) async -> String {
+        // Clear cache for this location to force fresh request
+        let lat = round(location.coordinate.latitude * 100) / 100
+        let lon = round(location.coordinate.longitude * 100) / 100
+        let cacheKey = "\(lat),\(lon)"
+        geocodingCache.removeValue(forKey: cacheKey)
+        
+        // Wait for rate limit
+        await enforceRateLimit()
+        
+        // Get fresh location name
+        return await getLocationName(for: location)
+    }
+    
+    func generateTitlePublic(locationName: String, startDate: Date) -> String {
+        return generateTitle(locationName: locationName, startDate: startDate)
+    }
+    
     private func generateTitle(locationName: String, startDate: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM yyyy"

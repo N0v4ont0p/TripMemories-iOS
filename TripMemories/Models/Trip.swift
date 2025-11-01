@@ -5,7 +5,7 @@ struct Trip: Identifiable, Codable, Hashable {
     var title: String
     let startDate: Date
     let endDate: Date
-    let locationName: String
+    var locationName: String
     let photoIDs: [String]
     var isFavorite: Bool
     

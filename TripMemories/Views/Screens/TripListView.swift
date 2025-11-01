@@ -105,6 +105,15 @@ struct TripListView: View {
                             Label("Organize Photos", systemImage: "arrow.triangle.2.circlepath")
                         }
                         
+                        Button {
+                            refreshUnknownLocations()
+                        } label: {
+                            Label("Refresh Unknown Locations", systemImage: "arrow.clockwise")
+                        }
+                        .disabled(tripViewModel.trips.filter { $0.locationName == "Unknown Location" }.isEmpty)
+                        
+                        Divider()
+                        
                         Button(role: .destructive) {
                             showClearConfirmation = true
                         } label: {
@@ -212,6 +221,16 @@ struct TripListView: View {
             await tripViewModel.organizePhotos(photos: photoViewModel.photos, homeLocation: homeLocation)
             
             print("📥 Returned from tripViewModel.organizePhotos")
+        }
+    }
+    
+    private func refreshUnknownLocations() {
+        print("🔄 Refresh Unknown Locations button clicked!")
+        let unknownCount = tripViewModel.trips.filter { $0.locationName == "Unknown Location" }.count
+        print("📍 Found \(unknownCount) trips with Unknown Location")
+        
+        Task {
+            await tripViewModel.refreshUnknownLocations(photos: photoViewModel.photos)
         }
     }
 }
