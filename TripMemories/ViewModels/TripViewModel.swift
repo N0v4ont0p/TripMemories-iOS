@@ -79,7 +79,12 @@ class TripViewModel: ObservableObject {
             if trip.locationName == "Unknown Location" {
                 // Get photos for this trip
                 let tripPhotos = photos.filter { trip.photoIDs.contains($0.id) }
-                guard !tripPhotos.isEmpty, let centerPhoto = tripPhotos[tripPhotos.count / 2], let location = centerPhoto.location else {
+                guard !tripPhotos.isEmpty else {
+                    continue
+                }
+                
+                let centerPhoto = tripPhotos[tripPhotos.count / 2]
+                guard let location = centerPhoto.location else {
                     continue
                 }
                 
