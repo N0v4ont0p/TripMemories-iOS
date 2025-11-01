@@ -51,7 +51,7 @@ struct SlideshowView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .onChange(of: currentIndex) { _, newIndex in
+            .onChange(of: currentIndex) { newIndex in
                 loadFullImage(at: newIndex)
             }
             

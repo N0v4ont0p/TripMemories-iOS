@@ -95,10 +95,25 @@ class PhotoLibraryService: ObservableObject {
         
         guard !assets.isEmpty else { return }
         
+        // Step 1: Create the album
+        var albumPlaceholder: PHObjectPlaceholder?
+        do {
+            try await PHPhotoLibrary.shared().performChanges {
+                let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: name)
+                albumPlaceholder = createAlbumRequest.placeholderForCreatedAssetCollection
+            }
+        } catch {
+            return
+        }
+        
+        // Step 2: Add photos to the created album
+        guard let placeholder = albumPlaceholder,
+              let album = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [placeholder.localIdentifier], options: nil).firstObject else {
+            return
+        }
+        
         try? await PHPhotoLibrary.shared().performChanges {
-            let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: name)
-            if let placeholder = createAlbumRequest.placeholderForCreatedAssetCollection,
-               let albumChangeRequest = PHAssetCollectionChangeRequest(for: placeholder) {
+            if let albumChangeRequest = PHAssetCollectionChangeRequest(for: album) {
                 albumChangeRequest.addAssets(assets as NSArray)
             }
         }
