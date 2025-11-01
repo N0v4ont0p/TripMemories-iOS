@@ -9,23 +9,29 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            TripListView()
-                .tabItem {
-                    Label("Trips", systemImage: "suitcase")
-                }
-                .tag(0)
+            NavigationStack {
+                TripListView()
+            }
+            .tabItem {
+                Label("Trips", systemImage: "suitcase")
+            }
+            .tag(0)
             
-            TimelineView()
-                .tabItem {
-                    Label("Timeline", systemImage: "clock")
-                }
-                .tag(1)
+            NavigationStack {
+                TimelineView()
+            }
+            .tabItem {
+                Label("Timeline", systemImage: "clock")
+            }
+            .tag(1)
             
-            StatisticsView()
-                .tabItem {
-                    Label("Stats", systemImage: "chart.bar")
-                }
-                .tag(2)
+            NavigationStack {
+                StatisticsView()
+            }
+            .tabItem {
+                Label("Stats", systemImage: "chart.bar")
+            }
+            .tag(2)
         }
         .onAppear {
             checkOnboarding()
