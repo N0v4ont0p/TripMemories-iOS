@@ -7,379 +7,372 @@ objectVersion = 56;
 objects = {
 
 /* Begin PBXBuildFile section */
-/* TripMemoriesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000002 /* TripMemoriesApp.swift */; };
-/* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000004 /* ContentView.swift */; };
-/* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000006 /* Photo.swift */; };
-/* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000008 /* Trip.swift */; };
-/* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000010 /* UserSettings.swift */; };
-/* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000012 /* PhotoLibraryService.swift */; };
-/* TripClusteringService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000014 /* TripClusteringService.swift */; };
-/* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000016 /* PersistenceService.swift */; };
-/* PhotoLibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000018 /* PhotoLibraryViewModel.swift */; };
-/* TripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000020 /* TripViewModel.swift */; };
-/* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000022 /* OnboardingView.swift */; };
-/* TripListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000024 /* TripListView.swift */; };
-/* TripDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000026 /* TripDetailView.swift */; };
-/* TripCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000028 /* TripCard.swift */; };
+		741C0355156F5E792F9BDBC8 /* TripMemoriesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5557A65A1B0A31FDAE548B /* TripMemoriesApp.swift */; };
+		EC31FDC5B9B18ADE83981AB2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5025C0C107BBCE3C9FDF0FA /* ContentView.swift */; };
+		BF63393AE6D585D34F9723A1 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D68433998847807B5D6764 /* Photo.swift */; };
+		6F8E2B14CDF98EFF5ED24AD7 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE486DC577545BA61CB8CBAD /* Trip.swift */; };
+		D1A2F2458E13D2A5E1E20E01 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC83984295071C356357CEA2 /* UserSettings.swift */; };
+		17B052830A303165688BCAE6 /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF6292E5C28EA05941A660A /* PhotoLibraryService.swift */; };
+		FB7402F0F4055DC06294E483 /* TripClusteringService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E680C00060903E8606EBD0 /* TripClusteringService.swift */; };
+		E4DDD689E8AE6B3CE0C92710 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661DDC99060EF6B8E8D0ACD8 /* PersistenceService.swift */; };
+		532AEE0DCA968BB16E0DE044 /* PhotoLibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0016D73FC269B8290487AE /* PhotoLibraryViewModel.swift */; };
+		71D612CCA1D7F966711F2EFB /* TripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DC457DFEB060277C8518E5 /* TripViewModel.swift */; };
+		6B06F3BD587B8D6871834E1C /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E7E246A897E2003918BB38 /* OnboardingView.swift */; };
+		B8104262FD5CF938674571E9 /* TripListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727E30E83903837C0A01E9A6 /* TripListView.swift */; };
+		BED360C811525889138D37CC /* TripDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A015F70F494511B0C1837 /* TripDetailView.swift */; };
+		3A534E349673CBD9B78571DC /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA424D8EF30BA610068CE3AE /* TimelineView.swift */; };
+		A71CC89492660106EDF004D8 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8901AC800459A87F44410CAA /* StatisticsView.swift */; };
+		F1BAC3BD010EFA0F0B544743 /* SlideshowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6EDE95EAD96D44BE24F0C4 /* SlideshowView.swift */; };
+		38428FC74A1BC8EEED6F7A1E /* TripCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141A6C9A355B8F9B9A97ADDC /* TripCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-/* TripMemoriesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripMemoriesApp.swift; sourceTree = "<group>"; };
-/* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-/* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
-/* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
-/* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
-/* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
-/* TripClusteringService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripClusteringService.swift; sourceTree = "<group>"; };
-/* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
-/* PhotoLibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryViewModel.swift; sourceTree = "<group>"; };
-/* TripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripViewModel.swift; sourceTree = "<group>"; };
-/* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-/* TripListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListView.swift; sourceTree = "<group>"; };
-/* TripDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailView.swift; sourceTree = "<group>"; };
-/* TripCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCard.swift; sourceTree = "<group>"; };
-/* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-/* TripMemories.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripMemories.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA615606DCC4AEE8CD6BA95E /* TripMemories.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripMemories.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		871A5A54D3F93D7412D9019F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2E5557A65A1B0A31FDAE548B /* TripMemoriesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripMemoriesApp.swift; sourceTree = "<group>"; };
+		B5025C0C107BBCE3C9FDF0FA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B7D68433998847807B5D6764 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		AE486DC577545BA61CB8CBAD /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		BC83984295071C356357CEA2 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		FCF6292E5C28EA05941A660A /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
+		25E680C00060903E8606EBD0 /* TripClusteringService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripClusteringService.swift; sourceTree = "<group>"; };
+		661DDC99060EF6B8E8D0ACD8 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
+		3E0016D73FC269B8290487AE /* PhotoLibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryViewModel.swift; sourceTree = "<group>"; };
+		15DC457DFEB060277C8518E5 /* TripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripViewModel.swift; sourceTree = "<group>"; };
+		F7E7E246A897E2003918BB38 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		727E30E83903837C0A01E9A6 /* TripListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListView.swift; sourceTree = "<group>"; };
+		E38A015F70F494511B0C1837 /* TripDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailView.swift; sourceTree = "<group>"; };
+		DA424D8EF30BA610068CE3AE /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
+		8901AC800459A87F44410CAA /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
+		5D6EDE95EAD96D44BE24F0C4 /* SlideshowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideshowView.swift; sourceTree = "<group>"; };
+		141A6C9A355B8F9B9A97ADDC /* TripCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-/* Frameworks */ = {
-= PBXFrameworksBuildPhase;
-Mask = 2147483647;
-= (
-OnlyForDeploymentPostprocessing = 0;
+		017067860AFD82A3F4DA6D86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-= {
-= PBXGroup;
- = (
-/* TripMemories */,
-/* Products */,
-= "<group>";
-/* TripMemories */ = {
-= PBXGroup;
- = (
-/* Info.plist */,
-/* App */,
-/* Models */,
-/* Services */,
-/* ViewModels */,
-/* Views */,
-= TripMemories;
-= "<group>";
-/* Products */ = {
-= PBXGroup;
- = (
-/* TripMemories.app */,
-ame = Products;
-= "<group>";
-/* App */ = {
-= PBXGroup;
- = (
-/* TripMemoriesApp.swift */,
-= App;
-= "<group>";
-/* Models */ = {
-= PBXGroup;
- = (
-/* Photo.swift */,
-/* Trip.swift */,
-/* UserSettings.swift */,
-= Models;
-= "<group>";
-/* Services */ = {
-= PBXGroup;
- = (
-/* PhotoLibraryService.swift */,
-/* TripClusteringService.swift */,
-/* PersistenceService.swift */,
-= Services;
-= "<group>";
-/* ViewModels */ = {
-= PBXGroup;
- = (
-/* PhotoLibraryViewModel.swift */,
-/* TripViewModel.swift */,
-= ViewModels;
-= "<group>";
-/* Views */ = {
-= PBXGroup;
- = (
-/* ContentView.swift */,
-/* Screens */,
-/* Components */,
-= Views;
-= "<group>";
-/* Screens */ = {
-= PBXGroup;
- = (
-/* OnboardingView.swift */,
-/* TripListView.swift */,
-/* TripDetailView.swift */,
-= Screens;
-= "<group>";
-/* Components */ = {
-= PBXGroup;
- = (
-/* TripCard.swift */,
-= Components;
-= "<group>";
+		B4FC059E65EB08828AD4F90B = {
+			isa = PBXGroup;
+			children = (
+				02BFAC4B00321B6D64CF2FE0 /* TripMemories */,
+				1B46791415B6678C3B6CAEC9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1B46791415B6678C3B6CAEC9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CA615606DCC4AEE8CD6BA95E /* TripMemories.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		02BFAC4B00321B6D64CF2FE0 /* TripMemories */ = {
+			isa = PBXGroup;
+			children = (
+				8A5B68DB65036F532B5E2150 /* App */,
+				53F8B687EF88410FBBE09743 /* Models */,
+				475CD87E6BDE240E00374BCF /* Services */,
+				5CAAED4AC2F2C66621B76234 /* ViewModels */,
+				70B3D72B2B15F4F3D059F46C /* Views */,
+				871A5A54D3F93D7412D9019F /* Info.plist */,
+			);
+			path = TripMemories;
+			sourceTree = "<group>";
+		};
+		8A5B68DB65036F532B5E2150 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				2E5557A65A1B0A31FDAE548B /* TripMemoriesApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		53F8B687EF88410FBBE09743 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B7D68433998847807B5D6764 /* Photo.swift */,
+				AE486DC577545BA61CB8CBAD /* Trip.swift */,
+				BC83984295071C356357CEA2 /* UserSettings.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		475CD87E6BDE240E00374BCF /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FCF6292E5C28EA05941A660A /* PhotoLibraryService.swift */,
+				25E680C00060903E8606EBD0 /* TripClusteringService.swift */,
+				661DDC99060EF6B8E8D0ACD8 /* PersistenceService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		5CAAED4AC2F2C66621B76234 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				3E0016D73FC269B8290487AE /* PhotoLibraryViewModel.swift */,
+				15DC457DFEB060277C8518E5 /* TripViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		70B3D72B2B15F4F3D059F46C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B5025C0C107BBCE3C9FDF0FA /* ContentView.swift */,
+				88ED4FF8777CA868665AF598 /* Screens */,
+				4A72042B0D81B57B9A6D644C /* Components */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		88ED4FF8777CA868665AF598 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				F7E7E246A897E2003918BB38 /* OnboardingView.swift */,
+				727E30E83903837C0A01E9A6 /* TripListView.swift */,
+				E38A015F70F494511B0C1837 /* TripDetailView.swift */,
+				DA424D8EF30BA610068CE3AE /* TimelineView.swift */,
+				8901AC800459A87F44410CAA /* StatisticsView.swift */,
+				5D6EDE95EAD96D44BE24F0C4 /* SlideshowView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		4A72042B0D81B57B9A6D644C /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				141A6C9A355B8F9B9A97ADDC /* TripCard.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-/* TripMemories */ = {
-= PBXNativeTarget;
-figurationList = A1000044 /* Build configuration list for PBXNativeTarget "TripMemories" */;
-= (
-/* Sources */,
-/* Frameworks */,
-/* Resources */,
-= (
-dencies = (
-ame = TripMemories;
-ame = TripMemories;
-ce = A1000031 /* TripMemories.app */;
-pe = "com.apple.product-type.application";
+		5A61D12258C241F10E4F6B89 /* TripMemories */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 60C12FF4B702A723B2356D33 /* Build configuration list for PBXNativeTarget "TripMemories" */;
+			buildPhases = (
+				BEF7FD8832A0C45F3DC1BCF1 /* Sources */,
+				017067860AFD82A3F4DA6D86 /* Frameworks */,
+				61C357535CCE0A408491C6F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TripMemories;
+			productName = TripMemories;
+			productReference = CA615606DCC4AEE8CD6BA95E /* TripMemories.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-/* Project object */ = {
-= PBXProject;
-= {
-dependentTargetsInParallel = 1;
-= 1500;
-= 1500;
-figurationList = A1000048 /* Build configuration list for PBXProject "TripMemories" */;
-Version = "Xcode 14.0";
-tRegion = en;
-nedForEncodings = 0;
-ownRegions = (
-,
-Group = A1000033;
-= A1000035 /* Products */;
-= "";
-= "";
-= (
-/* TripMemories */,
+		6E4C88AA1F151D30B680D751 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					5A61D12258C241F10E4F6B89 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 37C95D551661345CCF90376E /* Build configuration list for PBXProject "TripMemories" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B4FC059E65EB08828AD4F90B;
+			productRefGroup = 1B46791415B6678C3B6CAEC9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5A61D12258C241F10E4F6B89 /* TripMemories */,
+			);
+		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-/* Resources */ = {
-= PBXResourcesBuildPhase;
-Mask = 2147483647;
-= (
-OnlyForDeploymentPostprocessing = 0;
+		61C357535CCE0A408491C6F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-/* Sources */ = {
-= PBXSourcesBuildPhase;
-Mask = 2147483647;
-= (
-/* TripMemoriesApp.swift in Sources */,
-/* ContentView.swift in Sources */,
-/* Photo.swift in Sources */,
-/* Trip.swift in Sources */,
-/* UserSettings.swift in Sources */,
-/* PhotoLibraryService.swift in Sources */,
-/* TripClusteringService.swift in Sources */,
-/* PersistenceService.swift in Sources */,
-/* PhotoLibraryViewModel.swift in Sources */,
-/* TripViewModel.swift in Sources */,
-/* OnboardingView.swift in Sources */,
-/* TripListView.swift in Sources */,
-/* TripDetailView.swift in Sources */,
-/* TripCard.swift in Sources */,
-OnlyForDeploymentPostprocessing = 0;
+		BEF7FD8832A0C45F3DC1BCF1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				741C0355156F5E792F9BDBC8 /* TripMemoriesApp.swift in Sources */,
+				EC31FDC5B9B18ADE83981AB2 /* ContentView.swift in Sources */,
+				BF63393AE6D585D34F9723A1 /* Photo.swift in Sources */,
+				6F8E2B14CDF98EFF5ED24AD7 /* Trip.swift in Sources */,
+				D1A2F2458E13D2A5E1E20E01 /* UserSettings.swift in Sources */,
+				17B052830A303165688BCAE6 /* PhotoLibraryService.swift in Sources */,
+				FB7402F0F4055DC06294E483 /* TripClusteringService.swift in Sources */,
+				E4DDD689E8AE6B3CE0C92710 /* PersistenceService.swift in Sources */,
+				532AEE0DCA968BB16E0DE044 /* PhotoLibraryViewModel.swift in Sources */,
+				71D612CCA1D7F966711F2EFB /* TripViewModel.swift in Sources */,
+				6B06F3BD587B8D6871834E1C /* OnboardingView.swift in Sources */,
+				B8104262FD5CF938674571E9 /* TripListView.swift in Sources */,
+				BED360C811525889138D37CC /* TripDetailView.swift in Sources */,
+				3A534E349673CBD9B78571DC /* TimelineView.swift in Sources */,
+				A71CC89492660106EDF004D8 /* StatisticsView.swift in Sources */,
+				F1BAC3BD010EFA0F0B544743 /* SlideshowView.swift in Sources */,
+				38428FC74A1BC8EEED6F7A1E /* TripCard.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-/* Debug */ = {
-= XCBuildConfiguration;
-gs = {
-S_SEARCH_USER_PATHS = NO;
-ERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-G_ANALYZER_NONNULL = YES;
-G_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-G_CXX_LANGUAGE_STANDARD = "gnu++20";
-G_ENABLE_MODULES = YES;
-G_ENABLE_OBJC_ARC = YES;
-G_ENABLE_OBJC_WEAK = YES;
-G_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-G_WARN_BOOL_CONVERSION = YES;
-G_WARN_COMMA = YES;
-G_WARN_CONSTANT_CONVERSION = YES;
-G_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-G_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-G_WARN_DOCUMENTATION_COMMENTS = YES;
-G_WARN_EMPTY_BODY = YES;
-G_WARN_ENUM_CONVERSION = YES;
-G_WARN_INFINITE_RECURSION = YES;
-G_WARN_INT_CONVERSION = YES;
-G_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-G_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-G_WARN_OBJC_LITERAL_CONVERSION = YES;
-G_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-G_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-G_WARN_RANGE_LOOP_ANALYSIS = YES;
-G_WARN_STRICT_PROTOTYPES = YES;
-G_WARN_SUSPICIOUS_MOVE = YES;
-G_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-G_WARN_UNREACHABLE_CODE = YES;
-G_WARN__DUPLICATE_METHOD_MATCH = YES;
-_PHASE_STRIP = NO;
-FORMATION_FORMAT = dwarf;
-ABLE_STRICT_OBJC_MSGSEND = YES;
-ABLE_TESTABILITY = YES;
-ABLE_USER_SCRIPT_SANDBOXING = YES;
-GUAGE_STANDARD = gnu17;
-NAMIC_NO_PIC = NO;
-O_COMMON_BLOCKS = YES;
-_LEVEL = 0;
-ITIONS = (
-herited)",
-_64_TO_32_BIT_CONVERSION = YES;
-_ABOUT_RETURN_TYPE = YES_ERROR;
-_UNDECLARED_SELECTOR = YES;
-_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-_UNUSED_FUNCTION = YES;
-_UNUSED_VARIABLE = YES;
-EOS_DEPLOYMENT_TARGET = 17.0;
-_PREFERS_STRING_CATALOGS = YES;
-ABLE_DEBUG_INFO = INCLUDE_SOURCE;
-= YES;
-LY_ACTIVE_ARCH = YES;
-= iphoneos;
-_CONDITIONS = "DEBUG $(inherited)";
-_LEVEL = "-Onone";
-ame = Debug;
-/* Release */ = {
-= XCBuildConfiguration;
-gs = {
-S_SEARCH_USER_PATHS = NO;
-ERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-G_ANALYZER_NONNULL = YES;
-G_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-G_CXX_LANGUAGE_STANDARD = "gnu++20";
-G_ENABLE_MODULES = YES;
-G_ENABLE_OBJC_ARC = YES;
-G_ENABLE_OBJC_WEAK = YES;
-G_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-G_WARN_BOOL_CONVERSION = YES;
-G_WARN_COMMA = YES;
-G_WARN_CONSTANT_CONVERSION = YES;
-G_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-G_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-G_WARN_DOCUMENTATION_COMMENTS = YES;
-G_WARN_EMPTY_BODY = YES;
-G_WARN_ENUM_CONVERSION = YES;
-G_WARN_INFINITE_RECURSION = YES;
-G_WARN_INT_CONVERSION = YES;
-G_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-G_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-G_WARN_OBJC_LITERAL_CONVERSION = YES;
-G_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-G_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-G_WARN_RANGE_LOOP_ANALYSIS = YES;
-G_WARN_STRICT_PROTOTYPES = YES;
-G_WARN_SUSPICIOUS_MOVE = YES;
-G_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-G_WARN_UNREACHABLE_CODE = YES;
-G_WARN__DUPLICATE_METHOD_MATCH = YES;
-_PHASE_STRIP = NO;
-FORMATION_FORMAT = "dwarf-with-dsym";
-ABLE_NS_ASSERTIONS = NO;
-ABLE_STRICT_OBJC_MSGSEND = YES;
-ABLE_USER_SCRIPT_SANDBOXING = YES;
-GUAGE_STANDARD = gnu17;
-O_COMMON_BLOCKS = YES;
-_64_TO_32_BIT_CONVERSION = YES;
-_ABOUT_RETURN_TYPE = YES_ERROR;
-_UNDECLARED_SELECTOR = YES;
-_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-_UNUSED_FUNCTION = YES;
-_UNUSED_VARIABLE = YES;
-EOS_DEPLOYMENT_TARGET = 17.0;
-_PREFERS_STRING_CATALOGS = YES;
-ABLE_DEBUG_INFO = NO;
-= YES;
-= iphoneos;
-_MODE = wholemodule;
-= YES;
-ame = Release;
-/* Debug */ = {
-= XCBuildConfiguration;
-gs = {
-_NAME = AppIcon;
-T_COLOR_NAME = AccentColor;
-_STYLE = Automatic;
-T_PROJECT_VERSION = 1;
-T_TEAM = "";
-ABLE_PREVIEWS = YES;
-ERATE_INFOPLIST_FILE = NO;
-FOPLIST_FILE = TripMemories/Info.plist;
-FOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-FOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-FOPLIST_KEY_UILaunchScreen_Generation = YES;
-FOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-FOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-PATH_SEARCH_PATHS = (
-herited)",
-G_VERSION = 1.0;
-DLE_IDENTIFIER = com.george.tripmemories;
-AME = "$(TARGET_NAME)";
-= "iphoneos iphonesimulator";
-ST = NO;
-GS = YES;
- = 5.0;
- = "1,2";
-ame = Debug;
-/* Release */ = {
-= XCBuildConfiguration;
-gs = {
-_NAME = AppIcon;
-T_COLOR_NAME = AccentColor;
-_STYLE = Automatic;
-T_PROJECT_VERSION = 1;
-T_TEAM = "";
-ABLE_PREVIEWS = YES;
-ERATE_INFOPLIST_FILE = NO;
-FOPLIST_FILE = TripMemories/Info.plist;
-FOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-FOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-FOPLIST_KEY_UILaunchScreen_Generation = YES;
-FOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-FOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-PATH_SEARCH_PATHS = (
-herited)",
-G_VERSION = 1.0;
-DLE_IDENTIFIER = com.george.tripmemories;
-AME = "$(TARGET_NAME)";
-= "iphoneos iphonesimulator";
-ST = NO;
-GS = YES;
- = 5.0;
- = "1,2";
-ame = Release;
+		8A93F244D6A1F4AD285D75E5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		0ACEB05531BFA2DA30430EF9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EC6F73B93FD77A34DAFFB32F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TripMemories/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tripmemories.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D3BA1A0C9E51085EB7B55F65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TripMemories/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tripmemories.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-/* Build configuration list for PBXNativeTarget "TripMemories" */ = {
-= XCConfigurationList;
-figurations = (
-/* Debug */,
-/* Release */,
-figurationIsVisible = 0;
-figurationName = Release;
-/* Build configuration list for PBXProject "TripMemories" */ = {
-= XCConfigurationList;
-figurations = (
-/* Debug */,
-/* Release */,
-figurationIsVisible = 0;
-figurationName = Release;
+		37C95D551661345CCF90376E /* Build configuration list for PBXProject "TripMemories" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A93F244D6A1F4AD285D75E5 /* Debug */,
+				0ACEB05531BFA2DA30430EF9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		60C12FF4B702A723B2356D33 /* Build configuration list for PBXNativeTarget "TripMemories" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC6F73B93FD77A34DAFFB32F /* Debug */,
+				D3BA1A0C9E51085EB7B55F65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
-};
-rootObject = A1000047 /* Project object */;
+	};
+	rootObject = 6E4C88AA1F151D30B680D751 /* Project object */;
 }
