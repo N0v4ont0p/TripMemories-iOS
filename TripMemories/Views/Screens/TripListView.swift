@@ -170,9 +170,13 @@ struct TripListView: View {
     }
     
     private func organizePhotos() {
+        print("🔴 Organize button clicked!")
+        print("📸 Photos available: \(photoViewModel.photos.count)")
+        
         Task {
             // Check for loading errors from PhotoLibraryService
             if let error = PhotoLibraryService.shared.loadingError {
+                print("⚠️ Loading error detected: \(error)")
                 await MainActor.run {
                     errorMessage = error
                     showErrorAlert = true
@@ -180,9 +184,17 @@ struct TripListView: View {
                 return
             }
             
+            // Clear any previous loading error
+            PhotoLibraryService.shared.loadingError = nil
+            
             let settings = PersistenceService.shared.loadSettings()
             let homeLocation = settings?.homeLocation?.toCLLocation()
+            print("🏠 Home location: \(homeLocation?.coordinate.latitude ?? 0), \(homeLocation?.coordinate.longitude ?? 0)")
+            print("📤 Calling tripViewModel.organizePhotos...")
+            
             await tripViewModel.organizePhotos(photos: photoViewModel.photos, homeLocation: homeLocation)
+            
+            print("📥 Returned from tripViewModel.organizePhotos")
         }
     }
 }
